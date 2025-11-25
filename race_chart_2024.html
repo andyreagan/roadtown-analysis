@@ -492,6 +492,7 @@
                 <ul>
                     <li><strong>Time Gap:</strong> Ranks by distance to Pareto front (how many seconds behind optimal performance)</li>
                     <li><strong>Blocking Runners:</strong> Ranks by how many runners need to be removed for you to reach the Pareto front (often more encouraging!)</li>
+                    <li><strong>Finish Time:</strong> Standard race results sorted by actual finish time</li>
                 </ul>
                 <p><strong>Column Meanings:</strong></p>
                 <ul>
@@ -517,6 +518,7 @@
             <div class="filter-buttons">
                 <button class="filter-btn active" data-sort="distance">Time Gap (distance to Pareto)</button>
                 <button class="filter-btn" data-sort="blocking">Blocking Runners (how many to remove)</button>
+                <button class="filter-btn" data-sort="time">Finish Time (normal results)</button>
             </div>
             <div id="pareto-rankings" style="display: grid; gap: 8px;"></div>
         </div>
@@ -949,6 +951,9 @@
                         }
                         return a.time_seconds - b.time_seconds;
                     });
+                } else if (sortMode === 'time') {
+                    // Sort by actual finish time (normal race results)
+                    filteredRankings.sort((a, b) => a.time_seconds - b.time_seconds);
                 } else {
                     // Sort by distance to Pareto, then by time (default)
                     filteredRankings.sort((a, b) => {
@@ -970,8 +975,8 @@
                     const blockingDisplay = isParetoWinner ? '0' : runner.blocking_runners.toString();
                     const sexDisplay = runner.sex === 'M' ? 'M' : 'F';
 
-                    // All Pareto winners get rank #1, others start from paretoWinnerCount + 1
-                    const rank = isParetoWinner ? 1 : (index - paretoWinnerCount + 2);
+                    // For time sort, use sequential ranking; otherwise Pareto winners get rank #1
+                    const rank = sortMode === 'time' ? (index + 1) : (isParetoWinner ? 1 : (index - paretoWinnerCount + 2));
 
                     rankingsList.append("div")
                         .attr("class", isParetoWinner ? "pareto-ranking-item pareto-winner" : "pareto-ranking-item")
