@@ -565,13 +565,11 @@
                 .attr("cy", d => yScale(d.time_seconds))
                 .attr("r", 4)
                 .on("mouseover", function(event, d) {
-                    const distanceText = d.distance_to_pareto !== null
-                        ? `<br>Distance to Pareto: +${formatTime(d.distance_to_pareto)}`
-                        : '';
                     tooltip.html(`
                         <strong>${d.name}</strong><br>
                         Male, Age ${d.age}<br>
-                        Time: ${d.time_display}${distanceText}
+                        Time: ${d.time_display}<br>
+                        Year: ${d.year}
                     `)
                     .classed("show", true)
                     .style("left", (event.pageX + 10) + "px")
@@ -591,13 +589,11 @@
                 .attr("cy", d => yScale(d.time_seconds))
                 .attr("r", 4)
                 .on("mouseover", function(event, d) {
-                    const distanceText = d.distance_to_pareto !== null
-                        ? `<br>Distance to Pareto: +${formatTime(d.distance_to_pareto)}`
-                        : '';
                     tooltip.html(`
                         <strong>${d.name}</strong><br>
                         Female, Age ${d.age}<br>
-                        Time: ${d.time_display}${distanceText}
+                        Time: ${d.time_display}<br>
+                        Year: ${d.year}
                     `)
                     .classed("show", true)
                     .style("left", (event.pageX + 10) + "px")
