@@ -173,8 +173,11 @@ def build_year_data(year, all_time_years=None):
 
     # Find age group winners
     age_group_winners = []
+    age_group_winner_set = set()
     for result in results:
         if result['div_place'] == '1' and result['division']:
+            key = (result['name'], result['age'], result['sex'])
+            age_group_winner_set.add(key)
             age_group_winners.append({
                 'name': result['name'],
                 'age': result['age'],
@@ -184,38 +187,137 @@ def build_year_data(year, all_time_years=None):
             })
     age_group_winners.sort(key=lambda x: (x['sex'], x['division']))
 
-    # Create pareto winners list
+    # Create sets for quick lookup
+    pareto_runner_set = set()
+    for r in male_pareto:
+        pareto_runner_set.add((r['name'], r['age'], 'M'))
+    for r in female_pareto:
+        pareto_runner_set.add((r['name'], r['age'], 'F'))
+
+    # Create pareto winners list with age group winner flag
     pareto_winners = []
     for r in male_pareto:
+        key = (r['name'], r['age'], 'M')
+        is_age_group_winner = key in age_group_winner_set
         pareto_winners.append({
             'name': r['name'],
             'age': r['age'],
             'sex': 'M',
-            'time_display': r['time_display']
+            'time_display': r['time_display'],
+            'is_age_group_winner': is_age_group_winner
         })
     for r in female_pareto:
+        key = (r['name'], r['age'], 'F')
+        is_age_group_winner = key in age_group_winner_set
         pareto_winners.append({
             'name': r['name'],
             'age': r['age'],
             'sex': 'F',
-            'time_display': r['time_display']
+            'time_display': r['time_display'],
+            'is_age_group_winner': is_age_group_winner
         })
     pareto_winners.sort(key=lambda x: (x['sex'], x['age']))
 
-    # Format data for output
-    male_data = [{
-        'age': r['age'],
-        'time_seconds': r['time_seconds'],
-        'time_display': r['time_display'],
-        'name': r['name']
-    } for r in male_results]
+    # Update age group winners with Pareto flag
+    for winner in age_group_winners:
+        key = (winner['name'], winner['age'], winner['sex'])
+        winner['is_pareto'] = key in pareto_runner_set
 
-    female_data = [{
-        'age': r['age'],
-        'time_seconds': r['time_seconds'],
-        'time_display': r['time_display'],
-        'name': r['name']
-    } for r in female_results]
+    # Helper function to interpolate Pareto front time at a given age
+    def get_pareto_time_at_age(age, pareto_front):
+        """Get the Pareto front time at a specific age (with interpolation)"""
+        if not pareto_front:
+            return None
+
+        # Find exact match
+        for p in pareto_front:
+            if p['age'] == age:
+                return p['time_seconds']
+
+        # Find surrounding ages for interpolation
+        younger = [p for p in pareto_front if p['age'] < age]
+        older = [p for p in pareto_front if p['age'] > age]
+
+        if not younger and not older:
+            return None
+        elif not younger:
+            # Age is younger than all Pareto points, use youngest
+            return min(pareto_front, key=lambda x: x['age'])['time_seconds']
+        elif not older:
+            # Age is older than all Pareto points, use oldest
+            return max(pareto_front, key=lambda x: x['age'])['time_seconds']
+        else:
+            # Interpolate between closest younger and older
+            closest_younger = max(younger, key=lambda x: x['age'])
+            closest_older = min(older, key=lambda x: x['age'])
+
+            # Linear interpolation
+            age_diff = closest_older['age'] - closest_younger['age']
+            time_diff = closest_older['time_seconds'] - closest_younger['time_seconds']
+            age_offset = age - closest_younger['age']
+
+            return closest_younger['time_seconds'] + (time_diff * age_offset / age_diff)
+
+    # Helper function to calculate blocking runners
+    def count_blocking_runners(runner, all_runners_same_gender):
+        """Count how many runners need to be removed for this runner to be on Pareto front"""
+        # Find the peak (fastest runner)
+        fastest = min(all_runners_same_gender, key=lambda x: x['time_seconds'])
+        peak_age = fastest['age']
+
+        blocking_count = 0
+
+        if runner['age'] < peak_age:
+            # Younger than peak: count runners who are younger OR same age AND faster
+            for other in all_runners_same_gender:
+                if other['age'] <= runner['age'] and other['time_seconds'] < runner['time_seconds']:
+                    blocking_count += 1
+        elif runner['age'] > peak_age:
+            # Older than peak: count runners who are older OR same age AND faster
+            for other in all_runners_same_gender:
+                if other['age'] >= runner['age'] and other['time_seconds'] < runner['time_seconds']:
+                    blocking_count += 1
+        else:
+            # At peak age: check if they're the fastest
+            if runner['time_seconds'] == fastest['time_seconds']:
+                blocking_count = 0
+            else:
+                # Count faster runners at same age
+                blocking_count = sum(1 for other in all_runners_same_gender
+                                   if other['age'] == runner['age'] and other['time_seconds'] < runner['time_seconds'])
+
+        return blocking_count
+
+    # Prepare all data with distance to Pareto front and blocking count
+    male_data = []
+    for result in male_results:
+        pareto_time = get_pareto_time_at_age(result['age'], male_pareto)
+        distance = result['time_seconds'] - pareto_time if pareto_time else None
+        blocking = count_blocking_runners(result, male_results)
+
+        male_data.append({
+            'age': result['age'],
+            'time_seconds': result['time_seconds'],
+            'time_display': result['time_display'],
+            'name': result['name'],
+            'distance_to_pareto': distance,
+            'blocking_runners': blocking
+        })
+
+    female_data = []
+    for result in female_results:
+        pareto_time = get_pareto_time_at_age(result['age'], female_pareto)
+        distance = result['time_seconds'] - pareto_time if pareto_time else None
+        blocking = count_blocking_runners(result, female_results)
+
+        female_data.append({
+            'age': result['age'],
+            'time_seconds': result['time_seconds'],
+            'time_display': result['time_display'],
+            'name': result['name'],
+            'distance_to_pareto': distance,
+            'blocking_runners': blocking
+        })
 
     male_pareto_data = [{
         'age': r['age'],
@@ -250,6 +352,34 @@ def build_year_data(year, all_time_years=None):
         'is_current_year': r.get('year') == year
     } for r in female_all_time_pareto]
 
+    # Create Pareto-adjusted rankings (all runners by distance to Pareto)
+    all_runners_adjusted = []
+
+    for result in male_data:
+        all_runners_adjusted.append({
+            'name': result['name'],
+            'age': result['age'],
+            'sex': 'M',
+            'time_display': result['time_display'],
+            'time_seconds': result['time_seconds'],
+            'distance_to_pareto': result['distance_to_pareto'] if result['distance_to_pareto'] is not None else 0,
+            'blocking_runners': result['blocking_runners']
+        })
+
+    for result in female_data:
+        all_runners_adjusted.append({
+            'name': result['name'],
+            'age': result['age'],
+            'sex': 'F',
+            'time_display': result['time_display'],
+            'time_seconds': result['time_seconds'],
+            'distance_to_pareto': result['distance_to_pareto'] if result['distance_to_pareto'] is not None else 0,
+            'blocking_runners': result['blocking_runners']
+        })
+
+    # Sort by distance to Pareto front first, then by actual time
+    all_runners_adjusted.sort(key=lambda x: (x['distance_to_pareto'], x['time_seconds']))
+
     return {
         'male_all': male_data,
         'female_all': female_data,
@@ -258,7 +388,8 @@ def build_year_data(year, all_time_years=None):
         'male_all_time_pareto': male_all_time_pareto_data,
         'female_all_time_pareto': female_all_time_pareto_data,
         'age_group_winners': age_group_winners,
-        'pareto_winners': pareto_winners
+        'pareto_winners': pareto_winners,
+        'pareto_adjusted_rankings': all_runners_adjusted
     }
 
 
