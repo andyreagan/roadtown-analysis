@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 Roadtown Turkey Trot Race Analysis</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        #chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            #chart-container {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 24px !important;
+            }
+
+            .page-subtitle {
+                font-size: 14px !important;
+            }
+
+            #stats {
+                grid-template-columns: 1fr !important;
+            }
+
+            .age-groups-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+        }
+
+        #chart {
+            width: 100%;
+            height: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .line-male {
+            stroke: #2563eb;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .line-female {
+            stroke: #dc2626;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .line-all-time-male {
+            stroke: #60a5fa;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 8, 4;
+            opacity: 0.7;
+        }
+
+        .line-all-time-female {
+            stroke: #f87171;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 8, 4;
+            opacity: 0.7;
+        }
+
+        .dot-all-time-male {
+            fill: #60a5fa;
+            stroke: white;
+            stroke-width: 1.5;
+            opacity: 0.8;
+        }
+
+        .dot-all-time-female {
+            fill: #f87171;
+            stroke: white;
+            stroke-width: 1.5;
+            opacity: 0.8;
+        }
+
+        .dot-all-time-male.new-record {
+            fill: #2563eb;
+            stroke: #fbbf24;
+            stroke-width: 2.5;
+            opacity: 1;
+        }
+
+        .dot-all-time-female.new-record {
+            fill: #dc2626;
+            stroke: #fbbf24;
+            stroke-width: 2.5;
+            opacity: 1;
+        }
+
+        .dot-male {
+            fill: #60a5fa;
+            stroke: white;
+            stroke-width: 1.5;
+            opacity: 0.7;
+        }
+
+        .dot-female {
+            fill: #f87171;
+            stroke: white;
+            stroke-width: 1.5;
+            opacity: 0.7;
+        }
+
+        .dot-pareto-male {
+            fill: #2563eb;
+            stroke: white;
+            stroke-width: 2;
+            opacity: 1;
+        }
+
+        .dot-pareto-female {
+            fill: #dc2626;
+            stroke: white;
+            stroke-width: 2;
+            opacity: 1;
+        }
+
+        .dot-male:hover, .dot-female:hover,
+        .dot-pareto-male:hover, .dot-pareto-female:hover {
+            r: 6;
+            cursor: pointer;
+            opacity: 1;
+        }
+
+        .axis-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .legend {
+            font-size: 14px;
+        }
+
+        .legend-item {
+            cursor: pointer;
+        }
+
+        .legend-item:hover {
+            opacity: 0.7;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            pointer-events: none;
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 1000;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .grid line {
+            stroke: #e5e5e5;
+            stroke-opacity: 0.7;
+        }
+
+        .grid path {
+            stroke-width: 0;
+        }
+
+        #stats {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-box h3 {
+            margin-top: 0;
+            color: #1e293b;
+            font-size: 16px;
+        }
+
+        .stat-box p {
+            margin: 8px 0;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .stat-box .highlight {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        #age-groups {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        #age-groups h2 {
+            color: #1e293b;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .age-groups-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .age-group-section h3 {
+            color: #1e293b;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .age-group-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .age-group-item {
+            display: grid;
+            grid-template-columns: 100px 1fr 80px;
+            gap: 12px;
+            padding: 8px 12px;
+            background: #f8fafc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .age-group-item .division {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .age-group-item .name {
+            color: #1e293b;
+        }
+
+        .age-group-item .time {
+            color: #64748b;
+            text-align: right;
+        }
+
+        .pareto-ranking-item {
+            display: grid;
+            grid-template-columns: 60px 80px 1fr 80px 100px 90px;
+            gap: 12px;
+            padding: 8px 12px;
+            background: #f8fafc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .pareto-ranking-item.pareto-winner {
+            background: #fef3c7;
+            font-weight: 500;
+        }
+
+        .pareto-ranking-item .rank {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .pareto-ranking-item .age-sex {
+            color: #64748b;
+        }
+
+        .pareto-ranking-item .name {
+            color: #1e293b;
+        }
+
+        .pareto-ranking-item .actual-time {
+            color: #64748b;
+            text-align: right;
+        }
+
+        .pareto-ranking-item .distance {
+            color: #059669;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .pareto-ranking-item.pareto-winner .distance {
+            color: #d97706;
+        }
+
+        .pareto-ranking-item .blocking {
+            color: #7c3aed;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .pareto-ranking-item.pareto-winner .blocking {
+            color: #d97706;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border: 2px solid #cbd5e1;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #94a3b8;
+            background: #f8fafc;
+        }
+
+        .filter-btn.active {
+            border-color: #3b82f6;
+            background: #3b82f6;
+            color: white;
+        }
+
+        .explanation {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .explanation h3 {
+            margin-top: 0;
+            color: #1e293b;
+            font-size: 16px;
+        }
+
+        .explanation p {
+            margin: 10px 0;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .explanation ul {
+            margin: 10px 0;
+            padding-left: 20px;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .explanation li {
+            margin: 5px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1e293b;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .nav-bar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 1400px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            padding: 10px 24px;
+            border: 2px solid #cbd5e1;
+            background: white;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            border-color: #94a3b8;
+            background: #f8fafc;
+        }
+
+        .nav-link.active {
+            border-color: #3b82f6;
+            background: #3b82f6;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="race_chart_2023.html" class="nav-link">2023</a>
+        <a href="race_chart_2024.html" class="nav-link active">2024</a>
+        <a href="race_chart_2025.html" class="nav-link">2025</a>
+        <a href="race_chart_all_time.html" class="nav-link">All-Time</a>
+    </nav>
+    <div id="chart-container">
+        <h1 class="page-title">2024 Roadtown Turkey Trot Race Analysis</h1>
+        <p class="page-subtitle">Pareto Front Analysis: Age-Adjusted Performance Rankings</p>
+
+        <div class="explanation">
+            <h3>What is this analysis?</h3>
+            <p>This visualization uses <strong>Pareto front analysis</strong> to create age-adjusted performance rankings. Instead of simply ranking by finish time, we identify the optimal age-performance tradeoff curve.</p>
+            <p><strong>The Pareto Front</strong> represents runners who achieved the best possible performance for their age - no younger runner was faster, and no older runner was faster. This creates a U-shaped curve showing peak performance ages.</p>
+            <p><strong>Key insight:</strong> A 50-year-old running 22:00 might be more impressive than a 25-year-old running 21:00, if the 50-year-old is on the Pareto front (optimal for their age) while the 25-year-old is not.</p>
+        </div>
+
+        <h2 style="margin-top: 40px;">Interactive Visualization</h2>
+        <p style="text-align: center; color: #64748b; margin: -5px 0 20px 0; font-size: 14px;">
+            The bold lines show the Pareto front: optimal age-performance curves (blue=male, red=female)
+        </p>
+        <svg id="chart"></svg>
+        <div id="stats"></div>
+        <div id="age-groups">
+            <h2>Pareto Front Runners</h2>
+            <p style="color: #64748b; margin: -10px 0 5px 0; font-size: 14px;">
+                Runners on the optimal age-performance curve
+            </p>
+            <div class="explanation" style="margin-bottom: 20px;">
+                <h3>Understanding the Star (⭐)</h3>
+                <p>A star indicates runners who achieved one distinction but not the other:</p>
+                <ul>
+                    <li><strong>⭐ in Pareto Front list:</strong> On the Pareto front (optimal for their specific age) but did NOT win their traditional age group division</li>
+                    <li><strong>⭐ in Age Group Winners list:</strong> Won their traditional age group division but are NOT on the Pareto front for their specific age</li>
+                    <li><strong>No star:</strong> Runner achieved both distinctions (both Pareto optimal AND age group winner)</li>
+                </ul>
+            </div>
+            <div class="age-groups-grid">
+                <div class="age-group-section" id="male-pareto-section">
+                    <h3>Male</h3>
+                    <div class="age-group-list" id="male-pareto-list"></div>
+                </div>
+                <div class="age-group-section" id="female-pareto-section">
+                    <h3>Female</h3>
+                    <div class="age-group-list" id="female-pareto-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="age-groups" style="margin-top: 30px;">
+            <h2>Age Group Winners</h2>
+            <div class="age-groups-grid">
+                <div class="age-group-section" id="male-age-groups">
+                    <h3>Male</h3>
+                    <div class="age-group-list" id="male-winners-list"></div>
+                </div>
+                <div class="age-group-section" id="female-age-groups">
+                    <h3>Female</h3>
+                    <div class="age-group-list" id="female-winners-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #e2e8f0;">
+            <h2>Pareto-Adjusted Rankings</h2>
+            <p style="color: #64748b; margin: -10px 0 15px 0; font-size: 14px;">
+                Age-adjusted performance rankings - the fairest way to compare runners across all ages
+            </p>
+
+            <div class="explanation">
+                <h3>How to use this section</h3>
+                <p><strong>Gender Filter:</strong> Select your gender to see fair rankings within your competitive category. Rankings are recalculated for the filtered group.</p>
+                <p><strong>Sort Options:</strong></p>
+                <ul>
+                    <li><strong>Time Gap:</strong> Ranks by distance to Pareto front (how many seconds behind optimal performance)</li>
+                    <li><strong>Blocking Runners:</strong> Ranks by how many runners need to be removed for you to reach the Pareto front (often more encouraging!)</li>
+                    <li><strong>Finish Time:</strong> Standard race results sorted by actual finish time</li>
+                </ul>
+                <p><strong>Column Meanings:</strong></p>
+                <ul>
+                    <li><strong>Rank:</strong> All Pareto front runners = #1 (tied), others ranked accordingly</li>
+                    <li><strong>Age/Sex:</strong> Runner's age and gender</li>
+                    <li><strong>Name:</strong> Runner's name</li>
+                    <li><strong>Time:</strong> Actual finish time</li>
+                    <li><strong>Distance:</strong> Time gap to Pareto front (age-adjusted). +0:00.0 = Pareto optimal</li>
+                    <li><strong>Blocking:</strong> Number of runners blocking you from Pareto front (0 = you're on it!)</li>
+                </ul>
+            </div>
+            <p style="color: #1e293b; margin: 0 0 10px 0; font-size: 14px; font-weight: 500; text-align: center;">
+                Filter by gender to see fair rankings within your competitive category:
+            </p>
+            <div class="filter-buttons">
+                <button class="filter-btn" data-filter="all">All Runners</button>
+                <button class="filter-btn active" data-filter="M">Male Ranking</button>
+                <button class="filter-btn" data-filter="F">Female Ranking</button>
+            </div>
+            <p style="color: #1e293b; margin: 15px 0 10px 0; font-size: 14px; font-weight: 500; text-align: center;">
+                Sort by:
+            </p>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-sort="distance">Time Gap (distance to Pareto)</button>
+                <button class="filter-btn" data-sort="blocking">Blocking Runners (how many to remove)</button>
+                <button class="filter-btn" data-sort="time">Finish Time (normal results)</button>
+            </div>
+            <div id="pareto-rankings" style="display: grid; gap: 8px;"></div>
+        </div>
+    </div>
+
+    <div class="tooltip"></div>
+
+    <script>
+        // Chart dimensions - responsive
+        const containerWidth = document.getElementById('chart-container').offsetWidth;
+        const isMobile = window.innerWidth < 768;
+
+        const margin = isMobile
+            ? {top: 20, right: 60, bottom: 50, left: 50}
+            : {top: 40, right: 120, bottom: 60, left: 70};
+
+        const width = Math.min(1200, containerWidth - 60) - margin.left - margin.right;
+        const height = isMobile ? 400 : 600;
+
+        // Create SVG with viewBox for responsiveness
+        const svg = d3.select("#chart")
+            .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .style("width", "100%")
+            .style("height", "auto")
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Tooltip
+        const tooltip = d3.select(".tooltip");
+
+        // Format time
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = (seconds % 60).toFixed(1);
+            return `${mins}:${secs.padStart(4, '0')}`;
+        }
+
+        // Load data and create chart
+        d3.json('data/2024.json').then(data => {
+            const maleData = data.male_all;
+            const femaleData = data.female_all;
+            const maleParetoData = data.male_pareto;
+            const femaleParetoData = data.female_pareto;
+
+            // Calculate domains
+            const allAges = [...maleData.map(d => d.age), ...femaleData.map(d => d.age)];
+            const allTimes = [...maleData.map(d => d.time_seconds), ...femaleData.map(d => d.time_seconds)];
+
+            const xScale = d3.scaleLinear()
+                .domain([d3.min(allAges) - 2, d3.max(allAges) + 2])
+                .range([0, width]);
+
+            const yScale = d3.scaleLinear()
+                .domain([d3.min(allTimes) - 30, d3.max(allTimes) + 60])
+                .range([0, height]);
+
+            // Add grid
+            svg.append("g")
+                .attr("class", "grid")
+                .call(d3.axisLeft(yScale)
+                    .tickSize(-width)
+                    .tickFormat(""));
+
+            // Add X axis
+            const xAxis = svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
+
+            // Add Y axis
+            const yAxis = svg.append("g")
+                .call(d3.axisLeft(yScale)
+                    .tickFormat(d => formatTime(d)));
+
+            // X axis label
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("text-anchor", "middle")
+                .attr("x", width / 2)
+                .attr("y", height + 45)
+                .text("Age");
+
+            // Y axis label
+            svg.append("text")
+                .attr("class", "axis-label")
+                .attr("text-anchor", "middle")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -50)
+                .attr("x", -height / 2)
+                .text("Time (MM:SS)");
+
+            // Line generators (straight lines)
+            const lineGenerator = d3.line()
+                .x(d => xScale(d.age))
+                .y(d => yScale(d.time_seconds));
+
+            // Draw Pareto front lines
+            svg.append("path")
+                .datum(maleParetoData)
+                .attr("class", "line-male")
+                .attr("d", lineGenerator);
+
+            svg.append("path")
+                .datum(femaleParetoData)
+                .attr("class", "line-female")
+                .attr("d", lineGenerator);
+
+            // Draw all-time Pareto lines (if available)
+            const maleAllTimeParetoData = data.male_all_time_pareto || [];
+            const femaleAllTimeParetoData = data.female_all_time_pareto || [];
+
+            if (maleAllTimeParetoData.length > 0) {
+                svg.append("path")
+                    .datum(maleAllTimeParetoData)
+                    .attr("class", "line-all-time-male")
+                    .attr("d", lineGenerator);
+            }
+
+            if (femaleAllTimeParetoData.length > 0) {
+                svg.append("path")
+                    .datum(femaleAllTimeParetoData)
+                    .attr("class", "line-all-time-female")
+                    .attr("d", lineGenerator);
+            }
+
+            // Draw ALL male dots (regular runners)
+            svg.selectAll(".dot-male")
+                .data(maleData)
+                .enter()
+                .append("circle")
+                .attr("class", "dot-male")
+                .attr("cx", d => xScale(d.age))
+                .attr("cy", d => yScale(d.time_seconds))
+                .attr("r", 4)
+                .on("mouseover", function(event, d) {
+                    const distanceText = d.distance_to_pareto !== null
+                        ? `<br>Distance to Pareto: +${formatTime(d.distance_to_pareto)}`
+                        : '';
+                    tooltip.html(`
+                        <strong>${d.name}</strong><br>
+                        Male, Age ${d.age}<br>
+                        Time: ${d.time_display}${distanceText}
+                    `)
+                    .classed("show", true)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.classed("show", false);
+                });
+
+            // Draw ALL female dots (regular runners)
+            svg.selectAll(".dot-female")
+                .data(femaleData)
+                .enter()
+                .append("circle")
+                .attr("class", "dot-female")
+                .attr("cx", d => xScale(d.age))
+                .attr("cy", d => yScale(d.time_seconds))
+                .attr("r", 4)
+                .on("mouseover", function(event, d) {
+                    const distanceText = d.distance_to_pareto !== null
+                        ? `<br>Distance to Pareto: +${formatTime(d.distance_to_pareto)}`
+                        : '';
+                    tooltip.html(`
+                        <strong>${d.name}</strong><br>
+                        Female, Age ${d.age}<br>
+                        Time: ${d.time_display}${distanceText}
+                    `)
+                    .classed("show", true)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.classed("show", false);
+                });
+
+            // Draw Pareto front dots on top (male)
+            svg.selectAll(".dot-pareto-male")
+                .data(maleParetoData)
+                .enter()
+                .append("circle")
+                .attr("class", "dot-pareto-male")
+                .attr("cx", d => xScale(d.age))
+                .attr("cy", d => yScale(d.time_seconds))
+                .attr("r", 5)
+                .on("mouseover", function(event, d) {
+                    tooltip.html(`
+                        <strong>${d.name}</strong> ⭐<br>
+                        Male, Age ${d.age}<br>
+                        Time: ${d.time_display}<br>
+                        <em>On Pareto front</em>
+                    `)
+                    .classed("show", true)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.classed("show", false);
+                });
+
+            // Draw Pareto front dots on top (female)
+            svg.selectAll(".dot-pareto-female")
+                .data(femaleParetoData)
+                .enter()
+                .append("circle")
+                .attr("class", "dot-pareto-female")
+                .attr("cx", d => xScale(d.age))
+                .attr("cy", d => yScale(d.time_seconds))
+                .attr("r", 5)
+                .on("mouseover", function(event, d) {
+                    tooltip.html(`
+                        <strong>${d.name}</strong> ⭐<br>
+                        Female, Age ${d.age}<br>
+                        Time: ${d.time_display}<br>
+                        <em>On Pareto front</em>
+                    `)
+                    .classed("show", true)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.classed("show", false);
+                });
+
+            // Draw all-time Pareto dots (male)
+            if (maleAllTimeParetoData.length > 0) {
+                svg.selectAll(".dot-all-time-male")
+                    .data(maleAllTimeParetoData)
+                    .enter()
+                    .append("circle")
+                    .attr("class", d => d.is_current_year ? "dot-all-time-male new-record" : "dot-all-time-male")
+                    .attr("cx", d => xScale(d.age))
+                    .attr("cy", d => yScale(d.time_seconds))
+                    .attr("r", d => d.is_current_year ? 5 : 4)
+                    .on("mouseover", function(event, d) {
+                        const recordLabel = d.is_current_year
+                            ? '<em style="color: #fbbf24;">✨ NEW All-time record!</em>'
+                            : '<em>All-time record</em>';
+                        tooltip.html(`
+                            <strong>${d.name}</strong> 🏆<br>
+                            Male, Age ${d.age}<br>
+                            Time: ${d.time_display}<br>
+                            Year: ${d.year}<br>
+                            ${recordLabel}
+                        `)
+                        .classed("show", true)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 10) + "px");
+                    })
+                    .on("mouseout", function() {
+                        tooltip.classed("show", false);
+                    });
+            }
+
+            // Draw all-time Pareto dots (female)
+            if (femaleAllTimeParetoData.length > 0) {
+                svg.selectAll(".dot-all-time-female")
+                    .data(femaleAllTimeParetoData)
+                    .enter()
+                    .append("circle")
+                    .attr("class", d => d.is_current_year ? "dot-all-time-female new-record" : "dot-all-time-female")
+                    .attr("cx", d => xScale(d.age))
+                    .attr("cy", d => yScale(d.time_seconds))
+                    .attr("r", d => d.is_current_year ? 5 : 4)
+                    .on("mouseover", function(event, d) {
+                        const recordLabel = d.is_current_year
+                            ? '<em style="color: #fbbf24;">✨ NEW All-time record!</em>'
+                            : '<em>All-time record</em>';
+                        tooltip.html(`
+                            <strong>${d.name}</strong> 🏆<br>
+                            Female, Age ${d.age}<br>
+                            Time: ${d.time_display}<br>
+                            Year: ${d.year}<br>
+                            ${recordLabel}
+                        `)
+                        .classed("show", true)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 10) + "px");
+                    })
+                    .on("mouseout", function() {
+                        tooltip.classed("show", false);
+                    });
+            }
+
+            // Legend
+            const legend = svg.append("g")
+                .attr("class", "legend")
+                .attr("transform", `translate(${width + 20}, 20)`);
+
+            // Male legend
+            legend.append("line")
+                .attr("x1", 0)
+                .attr("x2", 30)
+                .attr("y1", 0)
+                .attr("y2", 0)
+                .attr("class", "line-male");
+
+            legend.append("circle")
+                .attr("cx", 15)
+                .attr("cy", 0)
+                .attr("r", 5)
+                .attr("class", "dot-male");
+
+            legend.append("text")
+                .attr("x", 40)
+                .attr("y", 5)
+                .text("Male");
+
+            // Female legend
+            legend.append("line")
+                .attr("x1", 0)
+                .attr("x2", 30)
+                .attr("y1", 30)
+                .attr("y2", 30)
+                .attr("class", "line-female");
+
+            legend.append("circle")
+                .attr("cx", 15)
+                .attr("cy", 30)
+                .attr("r", 5)
+                .attr("class", "dot-female");
+
+            legend.append("text")
+                .attr("x", 40)
+                .attr("y", 35)
+                .text("Female");
+
+            // Calculate statistics
+            const maleMin = d3.min(maleData, d => d.time_seconds);
+            const maleMax = d3.max(maleData, d => d.time_seconds);
+            const maleFastest = maleData.find(d => d.time_seconds === maleMin);
+            const maleSlowest = maleData.find(d => d.time_seconds === maleMax);
+
+            const femaleMin = d3.min(femaleData, d => d.time_seconds);
+            const femaleMax = d3.max(femaleData, d => d.time_seconds);
+            const femaleFastest = femaleData.find(d => d.time_seconds === femaleMin);
+            const femaleSlowest = femaleData.find(d => d.time_seconds === femaleMax);
+
+            // Display statistics
+            d3.select("#stats").html(`
+                <div class="stat-box">
+                    <h3>Male Runners (${maleData.length} total)</h3>
+                    <p>Age range: <span class="highlight">${d3.min(maleData, d => d.age)} - ${d3.max(maleData, d => d.age)}</span></p>
+                    <p>Overall fastest: <span class="highlight">${maleFastest.time_display}</span> (Age ${maleFastest.age}, ${maleFastest.name})</p>
+                    <p>Pareto front: <span class="highlight">${maleParetoData.length} age groups</span></p>
+                </div>
+                <div class="stat-box">
+                    <h3>Female Runners (${femaleData.length} total)</h3>
+                    <p>Age range: <span class="highlight">${d3.min(femaleData, d => d.age)} - ${d3.max(femaleData, d => d.age)}</span></p>
+                    <p>Overall fastest: <span class="highlight">${femaleFastest.time_display}</span> (Age ${femaleFastest.age}, ${femaleFastest.name})</p>
+                    <p>Pareto front: <span class="highlight">${femaleParetoData.length} age groups</span></p>
+                </div>
+            `);
+
+            // Display Pareto front runners
+            const paretoWinners = data.pareto_winners;
+            const maleParetoWinners = paretoWinners.filter(w => w.sex === 'M');
+            const femaleParetoWinners = paretoWinners.filter(w => w.sex === 'F');
+
+            // Male Pareto runners
+            const maleParetoList = d3.select("#male-pareto-list");
+            maleParetoWinners.forEach(winner => {
+                const star = !winner.is_age_group_winner ? ' ⭐' : '';
+                maleParetoList.append("div")
+                    .attr("class", "age-group-item")
+                    .html(`
+                        <div class="division">Age ${winner.age}</div>
+                        <div class="name">${winner.name}${star}</div>
+                        <div class="time">${winner.time_display}</div>
+                    `);
+            });
+
+            // Female Pareto runners
+            const femaleParetoList = d3.select("#female-pareto-list");
+            femaleParetoWinners.forEach(winner => {
+                const star = !winner.is_age_group_winner ? ' ⭐' : '';
+                femaleParetoList.append("div")
+                    .attr("class", "age-group-item")
+                    .html(`
+                        <div class="division">Age ${winner.age}</div>
+                        <div class="name">${winner.name}${star}</div>
+                        <div class="time">${winner.time_display}</div>
+                    `);
+            });
+
+            // Display age group winners
+            const ageGroupWinners = data.age_group_winners;
+            const maleWinners = ageGroupWinners.filter(w => w.sex === 'M');
+            const femaleWinners = ageGroupWinners.filter(w => w.sex === 'F');
+
+            // Male winners
+            const maleWinnersList = d3.select("#male-winners-list");
+            maleWinners.forEach(winner => {
+                const star = !winner.is_pareto ? ' ⭐' : '';
+                maleWinnersList.append("div")
+                    .attr("class", "age-group-item")
+                    .html(`
+                        <div class="division">${winner.division}</div>
+                        <div class="name">${winner.name}${star}</div>
+                        <div class="time">${winner.time_display}</div>
+                    `);
+            });
+
+            // Female winners
+            const femaleWinnersList = d3.select("#female-winners-list");
+            femaleWinners.forEach(winner => {
+                const star = !winner.is_pareto ? ' ⭐' : '';
+                femaleWinnersList.append("div")
+                    .attr("class", "age-group-item")
+                    .html(`
+                        <div class="division">${winner.division}</div>
+                        <div class="name">${winner.name}${star}</div>
+                        <div class="time">${winner.time_display}</div>
+                    `);
+            });
+
+            // Display Pareto-adjusted rankings
+            const paretoRankings = data.pareto_adjusted_rankings;
+            let currentFilter = 'M'; // Default to Male ranking
+            let currentSort = 'distance'; // Default sort by distance
+
+            function renderRankings(filter, sortMode) {
+                const rankingsList = d3.select("#pareto-rankings");
+                rankingsList.html(''); // Clear existing
+
+                // Filter data based on selection
+                let filteredRankings = filter === 'all'
+                    ? [...paretoRankings]
+                    : paretoRankings.filter(r => r.sex === filter);
+
+                // Sort based on mode
+                if (sortMode === 'blocking') {
+                    // Sort by blocking runners, then by time
+                    filteredRankings.sort((a, b) => {
+                        if (a.blocking_runners !== b.blocking_runners) {
+                            return a.blocking_runners - b.blocking_runners;
+                        }
+                        return a.time_seconds - b.time_seconds;
+                    });
+                } else if (sortMode === 'time') {
+                    // Sort by actual finish time (normal race results)
+                    filteredRankings.sort((a, b) => a.time_seconds - b.time_seconds);
+                } else {
+                    // Sort by distance to Pareto, then by time (default)
+                    filteredRankings.sort((a, b) => {
+                        if (a.distance_to_pareto !== b.distance_to_pareto) {
+                            return a.distance_to_pareto - b.distance_to_pareto;
+                        }
+                        return a.time_seconds - b.time_seconds;
+                    });
+                }
+
+                // Count Pareto winners in filtered set
+                const paretoWinnerCount = filteredRankings.filter(r => r.distance_to_pareto === 0).length;
+
+                filteredRankings.forEach((runner, index) => {
+                    const isParetoWinner = runner.distance_to_pareto === 0;
+                    const distanceDisplay = isParetoWinner
+                        ? '+0:00.0'
+                        : '+' + formatTime(runner.distance_to_pareto);
+                    const blockingDisplay = isParetoWinner ? '0' : runner.blocking_runners.toString();
+                    const sexDisplay = runner.sex === 'M' ? 'M' : 'F';
+
+                    // For time sort, use sequential ranking; otherwise Pareto winners get rank #1
+                    const rank = sortMode === 'time' ? (index + 1) : (isParetoWinner ? 1 : (index - paretoWinnerCount + 2));
+
+                    rankingsList.append("div")
+                        .attr("class", isParetoWinner ? "pareto-ranking-item pareto-winner" : "pareto-ranking-item")
+                        .html(`
+                            <div class="rank">#${rank}</div>
+                            <div class="age-sex">${sexDisplay}, ${runner.age}</div>
+                            <div class="name">${runner.name}</div>
+                            <div class="actual-time">${runner.time_display}</div>
+                            <div class="distance">${distanceDisplay}</div>
+                            <div class="blocking">${blockingDisplay}</div>
+                        `);
+                });
+            }
+
+            // Initial render
+            renderRankings(currentFilter, currentSort);
+
+            // Add filter button listeners
+            document.querySelectorAll('[data-filter]').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active state for filter buttons only
+                    document.querySelectorAll('[data-filter]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Update filter and re-render
+                    currentFilter = this.getAttribute('data-filter');
+                    renderRankings(currentFilter, currentSort);
+                });
+            });
+
+            // Add sort button listeners
+            document.querySelectorAll('[data-sort]').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active state for sort buttons only
+                    document.querySelectorAll('[data-sort]').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Update sort mode and re-render
+                    currentSort = this.getAttribute('data-sort');
+                    renderRankings(currentFilter, currentSort);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
