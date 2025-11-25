@@ -22,6 +22,45 @@
             margin: 0 auto;
         }
 
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            #chart-container {
+                padding: 15px;
+            }
+
+            .page-title {
+                font-size: 24px !important;
+            }
+
+            .page-subtitle {
+                font-size: 14px !important;
+            }
+
+            #stats {
+                grid-template-columns: 1fr !important;
+            }
+
+            .age-groups-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+        }
+
+        #chart {
+            width: 100%;
+            height: auto;
+        }
+
         h1 {
             text-align: center;
             color: #333;
@@ -417,15 +456,23 @@
     <div class="tooltip"></div>
 
     <script>
-        // Chart dimensions
-        const margin = {top: 40, right: 120, bottom: 60, left: 70};
-        const width = 1200 - margin.left - margin.right;
-        const height = 600 - margin.top - margin.bottom;
+        // Chart dimensions - responsive
+        const containerWidth = document.getElementById('chart-container').offsetWidth;
+        const isMobile = window.innerWidth < 768;
 
-        // Create SVG
+        const margin = isMobile
+            ? {top: 20, right: 60, bottom: 50, left: 50}
+            : {top: 40, right: 120, bottom: 60, left: 70};
+
+        const width = Math.min(1200, containerWidth - 60) - margin.left - margin.right;
+        const height = isMobile ? 400 : 600;
+
+        // Create SVG with viewBox for responsiveness
         const svg = d3.select("#chart")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            .style("width", "100%")
+            .style("height", "auto")
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
