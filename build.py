@@ -172,19 +172,45 @@ def build_year_data(year, all_time_years=None):
         female_all_time_pareto = compute_pareto_front(fastest_female_by_age)
 
     # Find age group winners
+    # First try using div_place if available, otherwise find first in each division
     age_group_winners = []
     age_group_winner_set = set()
-    for result in results:
-        if result['div_place'] == '1' and result['division']:
-            key = (result['name'], result['age'], result['sex'])
-            age_group_winner_set.add(key)
-            age_group_winners.append({
-                'name': result['name'],
-                'age': result['age'],
-                'sex': result['sex'],
-                'division': result['division'],
-                'time_display': result['time_display']
-            })
+
+    # Check if we have div_place data
+    has_div_place = any(r.get('div_place') == '1' for r in results)
+
+    if has_div_place:
+        # Use div_place field (2025 format)
+        for result in results:
+            if result['div_place'] == '1' and result['division']:
+                key = (result['name'], result['age'], result['sex'])
+                age_group_winner_set.add(key)
+                age_group_winners.append({
+                    'name': result['name'],
+                    'age': result['age'],
+                    'sex': result['sex'],
+                    'division': result['division'],
+                    'time_display': result['time_display']
+                })
+    else:
+        # Find first finisher in each division (2023/2024 format)
+        division_winners = {}
+        for result in results:
+            if result['division']:
+                division = result['division']
+                if division not in division_winners:
+                    # First person in this division is the winner
+                    division_winners[division] = result
+                    key = (result['name'], result['age'], result['sex'])
+                    age_group_winner_set.add(key)
+                    age_group_winners.append({
+                        'name': result['name'],
+                        'age': result['age'],
+                        'sex': result['sex'],
+                        'division': result['division'],
+                        'time_display': result['time_display']
+                    })
+
     age_group_winners.sort(key=lambda x: (x['sex'], x['division']))
 
     # Create sets for quick lookup
