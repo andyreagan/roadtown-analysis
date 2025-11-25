@@ -1,0 +1,111 @@
+Bib	Place	Div/Pl	Name	Age	Sex	Division	Gun Time	Net Time	City	State
+#1292	1		Wouter Hoogkamer	41	M	M4049	17:00		Pelham	MA
+#1257	2		Jacob Barnett	38	M	M3039	17:45		Leverett	MA
+#1336	3		Marc Reid	33	M	M3039	18:31		Exeter	NH
+#1379	4		Jared Millay	45	M	M4049	19:26		Amherst	MA
+#1334	5		Andy Reagan	34	M	M3039	19:35		Shutesbury	MA
+#1340	6		Grant Ritter	40	M	M4049	19:52		South Deerfield	MA
+#1349	7		Luke Sedor Protti	23	M	M2029	20:46		Shutesbury	MA
+#1271	8		Marcy Cabanas	41	F	F4049	21:07		Greenfield	MA
+#1314	9		Finn Mailloux	14	M	M0114	21:17		Shutesbury	MA
+#1309	10		Wesley Lawless	14	M	M0114	21:59		Dudley	MA
+#1341	11		Dawn Roberts	51	F	F5059	22:00		West Springfield	MA
+#1308	12		Joe Lawless	43	M	M4049	22:27		Dudley	MA
+#1302	13		Jenny Koonz	35	F	F3039	22:34		New Salem	MA
+#1352	14		Bradley Sherwood	23	M	M2029	22:54		Amherst	MA
+#1327	15		Patrick Pezzati	60	M	M6064	23:06		Montague	MA
+#1277	16		Sarah Dolven	53	F	F5059	23:53		Leverett	MA
+#1353	17		Maximillian Sonderegger	22	M	M2029	24:28		Dorchester Center	MA
+#1289	18		Alex Hertling	24	M	M2029	24:31		Amherst	MA
+#1293	19		Jen Howard	37	F	F3039	25:00		Sunderland	MA
+#1287	20		Isaac Goldstein	42	M	M4049	25:32		Shutesbury	MA
+#1315	21		Kevin McCaffrey	66	M	M6569	25:36		South Hadley	MA
+#1373	22		Benjamin Morin	23	M	M2029	25:43		New Braintree	MA
+#1374	23		Nicholas DeVries	23	M	M2029	25:46		New Braintree	MA
+#1306	24		Daniel Lass	70	M	M7079	26:23		Shutesbury	MA
+#1297	25		Paula Johnson	62	F	F6064	26:25		Decatur	GA
+#1356	26		Max Steinberg	14	M	M0114	26:32		Shutesbury	MA
+#1295	27		Gayle Huntress	46	F	F4049	27:11		Shutesbury	MA
+#1303	28		Kate Koonz	61	F	F6064	27:12		Orange	MA
+#1322	29		Shirah Neumann	39	F	F3039	27:19		Shutesbury	MA
+#1264	30		Matt Boulanger	55	M	M5059	27:25		Shutesbury	MA
+#1282	31		Bill Evans	59	M	M5059	27:32		Amherst	MA
+#1408	32		Susana Wolf	14	F	F0114	28:18		Shutesbury	MA
+#1301	33		Jade King	33	M	M3039	28:33		Pelham	MA
+#1280	34		Hannah Drew-Moyer	28	F	F2029	28:54		Shutesbury	MA
+#1328	35		Jeff Podos	56	M	M5059	29:15		Amherst	MA
+#1342	36		Lydia Robinson	39	F	F3039	29:25		Amherst	MA
+#1318	37		Daniel McMenamin	32	M	M3039	29:28		Belchertown	MA
+#1329	38		Mark Protti	62	M	M6064	29:30		Shutesbury	MA
+#1286	39		Annie Gagliardi	40	F	F4049	29:42		Amherst	MA
+#1283	40		Harper Fetler	26	F	F2029	29:47		Hadley	MA
+#1368	41		Tansy Warwick	13	F	F0114	30:02		Shutesbury	MA
+#1270	42		Sarah Butler	42	F	F4049	30:20		Wendell	MA
+#1304	43		Lisa Kuerzel	57	F	F5059	31:34		Shutesbury	MA
+#1363	44		Abbie Wanamaker-Ordorica	47	F	F4049	31:35		Amherst	MA
+#1310	45		Ken LeBlond	52	M	M5059	31:38		Amherst	MA
+#1351	46		Jane Sheffler	41	F	F4049	32:13		Amherst	MA
+#1261	47		Emma Bohlinger	20	F	F2029	32:29		Walden	NY
+#1262	48		Jill Boland	20	F	F2029	32:31		Amherst	MA
+#1296	49		Beth Jakob	62	F	F6064	32:34		Wendell	MA
+#1273	50		Katrina Catalano	30	F	F3039	32:55		Shutesbury	MA
+#1258	51		Felicia Bianchi	61	F	F6064	33:01		Northampton	MA
+#1371	52		thomas white	75	M	M7079	33:10		Amherst	MA
+#1321	53		Deanna Nappi	30	F	F3039	33:23		South Deerfield	MA
+#1276	54		Kevin DiGuglielmo	33	M	M3039	33:23		South Deerfield	MA
+#1272	55		Ana Caicedo	51	F	F5059	33:53		Leverett	MA
+#1291	56		Kursten Holabird	53	F	F5059	34:06		Amherst	MA
+#1376	57		Ana Dragon	23	F	F2029	34:40		Shutesbury	MA
+#1407	58		John Stifler	77	M	M7079	34:43		Shutesbury	MA
+#1347	59		Shannon Santana	44	F	F4049	35:21		New Salem	MA
+#1346	60		Ava Santana	22	F	F2029	35:21		New Salem	MA
+#1316	61		Anonymous Participant	38	F	F3039	35:49			
+#1263	62		Russell Bollag-Miller	30	M	M3039	35:49		Cambridge	MA
+#1409	63		Rachel Roy	42	F	F4049	36:52		Greenfield	MA
+#1278	64		Ronan Donta	13	M	M0114	37:06		Shutesbury	MA
+#1370	65		Charlie Weinstock	22	M	M2029	38:16		Amherst	MA
+#1299	66		Zack Katz	39	M	M3039	38:35		Leverett	MA
+#1378	67		Juniper Katz	47	F	F4049	38:51		Leverett	MA
+#1366	68		E. Warwick	10	F	F0114	40:35		Shutesbury	MA
+#1367	69		Melissa Warwick	47	F	F4049	40:37		Shutesbury	MA
+#1333	70		Justin Rathbun	50	M	M5059	41:35		Amherst	MA
+#1332	71		Darcy Rathbun	45	F	F4049	41:45		Amherst	MA
+#1377	72		Matt Parent	25	M	M2029	42:58		Springfield	MA
+#1267	73		Ann Brigham	60	F	F6064	43:42		Shutesbury	MA
+#1294	74		Suzanne Hoyle	70	F	F7079	43:45		Shutesbury	MA
+#1311	75		Sam LeBlond	13	M	M0114	44:04		Amherst	MA
+#1345	76		Vanessa Russell	49	F	F4049	44:19		Greenfield	MA
+#1344	77		Gary Russell	62	M	M6064	44:20		Greenfield	MA
+#1269	78		John Buonaccorsi	70	M	M7079	44:21		Shutesbury	MA
+#1410	79		Paul Peelle	76	M	M7079	44:40		Amherst	MA
+#1260	80		Geoff Bloom	41	M	M4049	44:42		West Brookfield	MA
+#1290	81		Hattie Holabird	15	F	F1519	44:43		Amherst	MA
+#1339	82		Alicia Richter	36	F	F3039	44:54		Shutesbury	MA
+#1369	83		Willa Warwick	16	F	F1519	44:54		Shutesbury	MA
+#1338	84		Bette Richard	74	F	F7079	45:43		Wendell	MA
+#1350	85		Helen Ann Sephton	65	F	F6569	46:12		Shutesbury	MA
+#1300	86		Colleen Kelley	63	F	F6064	46:12		Shutesbury	MA
+#1335	87		Aliki Recklitis	66	F	F6569	46:14		Shutesbury	MA
+#1330	88		Elaine Puleo	72	F	F7079	46:55		Shutesbury	MA
+#1355	89		April Stein	71	F	F7079	46:56		Shutesbury	MA
+#1375	90		Susan Loring-Wells	65	F	F6569	47:58		Shutesbury	MA
+#1348	91		Michele Sedor	60	F	F6064	48:00		Shutesbury	MA
+#1266	92		Angelica Brewer	40	F	F4049	48:37		Turners Falls	MA
+#1359	93		Anna Trapani	43	F	F4049	49:06		Amherst	MA
+#1361	94		I. Trapani	6	F	F0114	49:07		Amherst	MA
+#1360	95		E. Trapani	9	F	F0114	49:08		Amherst	MA
+#1312	98		L. Lyman	11	F	F0114	51:37		Orange	MA
+#1372	99		Beth Willson	53	F	F5059	54:39		Shutesbury	MA
+#1320	100		Molly Moss	50	F	F5059	54:39		Shutesbury	MA
+#1317	101		Lissa McLaughlin	28	F	F2029	54:39		Amherst	MA
+#1288	102		Anne Graham	64	F	F6064	1:04:03		Amherst	MA
+#1254	103		Liz Armstrong	71	F	F7079	1:04:13		Shutesbury	MA
+#1255	104		Ralph Armstrong	75	M	M7079	1:04:18		Shutesbury	MA
+#1253	105		Kristopher Armstrong	43	M	M4049	1:04:18		Shutesbury	MA
+#1281	106		Marc Engram	61	M	M6064	1:08:41		Shutesbury	MA
+#1325	107		Pam Ososky	67	F	F6569	1:08:41		Shutesbury	MA
+#1285	108		Shannon Fox	23	F	F2029	1:09:11		Shutesbury	MA
+#1284	109		Mare Fox	58	F	F5059	1:09:11		Westfield	MA
+#1405	110		Dorothy Gresswell	70	F	F7079	1:09:51		Sutesbury	MA
+#1358	111		Katie Tolles	74	F	F7079	1:09:51		Shutesbury	MA
+#1406	112		Dusty Miller	78	F	F7079	1:09:51		Shutesbury	MA

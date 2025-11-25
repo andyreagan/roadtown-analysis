@@ -1,0 +1,158 @@
+Bib	Place	Div/Pl	Name	Age	Sex	Division	Gun Time	Net Time	City	State
+#5158	1	1	Willem Goff	24	M	M2029	17:19.9		Amherst	MA
+#5139	2	1	Peter Dunn	42	M	M4049	18:29.7		Northampton	MA
+#5266	3	2	Luke SedorProtti	25	M	M2029	18:48.3		Shutesbury	MA
+#5261	4	2	Chad Scanlon	43	M	M4049	18:57.7		Forked River	NJ
+#5272	5	1	Simon Shin	18	M	M1519	19:31.4		Williamstown	MA
+#5201	6	2	Finn Mailloux	16	M	M1519	19:44.7		Shutesbury	MA
+#5274	7	3	Chris Sims	49	M	M4049	19:46.1		Amherst	MA
+#5276	8	1	Stephen Sims	14	M	M0114	19:56.6		Amherst	MA
+#5166	9	1	Kaitlyn Howard	30	F	F3039	20:23.1		Belchertown	MA
+#5318	10	1	Marc Guillaume	53	M	M5059	20:30.1		Greenfield	MA
+#5277	11	1	Owen Skorupski	34	M	M3039	20:39.5		Shutesbury	MA
+#5177	12	2	Nick Jarjoura	38	M	M3039	21:09.1		Rehoboth	MA
+#5183	13	3	Yohann Jordaan	15	M	M1519	22:08.8		Amherst	MA
+#5175	14	3	Niclas Jansson	34	M	M3039	22:13.7		South Deerfield	MA
+#5243	15	4	Andy Reagan	36	M	M3039	23:22.9		Shutesbury	MA
+#5236	16	1	Patrick Pezzati	62	M	M6569	23:31.3		Montague	MA
+#5269	17	3	Bradley Sherwood	25	M	M2029	23:32.7		Amherst	MA
+#5146	18	4	Brian Farmer	45	M	M4049	23:34.5		Ware	MA
+#5307	19	5	Robert Williams	43	M	M4049	23:41.5		Amherst	MA
+#5253	20	1	Dawn Roberts	53	F	F5059	24:05.8		Leverett	MA
+#5179	21	1	Paula Johnson	64	F	F6069	24:15.3		Northampton	MA
+#5275	22	2	Joe Sims	12	M	M0114	24:19.9		Amherst	MA
+#5163	23	2	Christy Hayes	67	M	M6569	24:28.9		Amherst	MA
+#5156	24	1	Quinn Gilman	20	F	F2029	24:39.8		South Hadley	MA
+#5106	25	2	Victoria Bergeron	50	F	F5059	24:45.8		Huntington	MA
+#5102	26	1	Sara Allium	45	F	F4049	24:56.2		South Deerfield	MA
+#5184	27	2	Eamon Kearney	50	M	M5059	25:07.9		Wilbraham	MA
+#5262	28	2	Natalie Scanlon	42	F	F4049	25:14.4		Forked River	NJ
+#5199	29	3	Max Maier	11	M	M0114	25:21.4		Amherst	MA
+#5220	30	1	Bea Mickus	14	F	F0114	25:25.9		Greenfield	MA
+#5221	31	3	Daniel Mickus	50	M	M5059	25:26.3		Greenfield	MA
+#5313	32	3	Liana Wolkenbreit	43	F	F4049	25:31.2		Amherst	MA
+#5144	33	3	Bill Evans	61	M	M6569	25:47.0		Amherst	MA
+#5246	34	4	Andrew Reed	50	M	M5059	25:58.5		West Newton	MA
+#5197	35	2	Ella Maier	14	F	F0114	26:05.3		Amherst	MA
+#5315	36	3	Eva Yun	12	F	F0114	26:15.1		Amherst	MA
+#5292	37	4	Samay Trivedi	21	M	M2029	26:33.7		Westford	MA
+#5245	38	5	Sai Reddy	21	M	M2029	26:33.9		Amherst	MA
+#5287	39	4	Don Towse	63	M	M6569	26:35.2		West Springfiel	MA
+#5206	40	5	Kevin McCaffrey	68	M	M6569	26:54.6		South Hadley	MA
+#5105	41	4	Dell Berard	9	M	M0114	27:00.4		Templeton	MA
+#5194	42	4	Whitney Lyman	48	F	F4049	27:03.0		South Hadley	MA
+#5120	43	5	Jaehyun Byun	50	M	M5059	27:04.9		Amherst	MA
+#5119	44	5	Daniel Byun	14	M	M0114	27:13.6		Amherst	MA
+#5210	45	1	Claire McFarland	18	F	F1519	27:20.0		Sunderland	MA
+#5211	46	6	Keith McFarland	53	M	M5059	27:23.3		Sunderland	MA
+#5319	47	6	Laszlo Herman	12	M	M0114	27:25.2		Shutesbury	MA
+#5311	48	5	Nicole Winters	45	F	F4049	27:28.3		Templeton	MA
+#5281	49	6	Brian St.Jean	65	M	M6569	27:32.1		Springfield	MA
+#5214	50	5	Daniel McMenamin	34	M	M3039	27:49.4		Belchertown	MA
+#5263	51	2	Shayla Schafer	21	F	F2029	28:01.7		Rockport	MA
+#5157	52	7	Lewis Goff	57	M	M5059	28:02.7		Amherst	MA
+#5309	53	6	Lukas Winfield	38	M	M3039	28:19.1		Shutesbury	MA
+#5229	54	6	Andrew Noble	47	M	M4049	28:24.5		Amherst	MA
+#5101	55	6	Leontine Alkema	46	F	F4049	28:34.6		Shutesbury	MA
+#5312	56	2	Susana Wolf	16	F	F1519	28:57.2		Leverett	MA
+#5176	57	7	Michael Jarjoura	42	M	M4049	29:01.1		Charlestown	MA
+#5317	58	3	Jennifer Zera	55	F	F5059	29:17.8		Sunderland	MA
+#5131	59	8	Joe Costello	42	M	M4049	29:33.0		Leverett	MA
+#5264	60	7	Susan Scheufele	41	F	F4049	29:44.4		Deerfield	MA
+#5196	61	8	Brianna Maier	43	F	F4049	29:54.4		Amherst	MA
+#5310	62	7	Nate Winston	37	M	M3039	30:04.5		Amherst	MA
+#5151	63	2	Maria Gannett	37	F	F3039	30:05.4		Amherst	MA
+#5278	64	8	Jeffrey Snoonian	53	M	M5059	30:05.7		Adams	MA
+#5191	65	8	Patrick Lawlor	33	M	M3039	30:08.5		Shutesbury	MA
+#5118	66	9	Sarah Butler	44	F	F4049	30:26.0		Wendell	MA
+#5239	67	7	Mark Protti	62	M	M6569	30:28.5		Shutesbury	MA
+#5165	68	2	Lauren Holt	63	F	F6069	30:28.7		Shutesbury	MA
+#5231	69	7	Solomon O'NeilEvan	9	M	M0114	30:58.9		Deerfield	MA
+#5145	70	9	Eli Evans	49	M	M4049	31:03.8		Deerfield	MA
+#5193	71	0	Mark Lelucher	62			31:22.1		Shutesbury	MA
+#5232	72	4	Evelyn Okerberg	12	F	F0114	31:28.5		Shutesbury	MA
+#5125	73	10	Jessica Carlson-Bel	48	F	F4049	31:30.0		Shutesbury	MA
+#5285	74	1	Bill Tobey	73	M	M7079	31:30.3		Amherst	MA
+#5185	75	11	Laura Ketteringham	44	F	F4049	31:30.4		Shutesbury	MA
+#5225	76	9	Joe Misterka	51	M	M5059	31:32.2		Chicopee	MA
+#5192	77	9	Phill Leab	39	M	M3039	31:38.8		Shutesbury	MA
+#5112	78	12	Jeannine Bourdeau	41	F	F4049	31:44.7		Belchertown	MA
+#5294	79	4	Donna Utakis	57	F	F5059	31:50.3		Amherst	MA
+#5129	80	13	Raimonda Clarke	48	F	F4049	32:05.4		Amherst	MA
+#5186	81	3	Elena Kim	22	F	F2029	32:07.7		Amherst	MA
+#5137	82	4	Ronan Donta	15	M	M1519	32:12.7		Shutesbury	MA
+#5273	83	14	Laurie Simmons	42	F	F4049	32:50.8		Hadley	MA
+#5244	84	8	Olson Reagan	8	M	M0114	33:30.4		Shutesbury	MA
+#5121	85	5	Ana Caicedo	53	F	F5059	34:11.5		Leverett	MA
+#5215	86	15	Rose McWilliams	40	F	F4049	34:14.5		Shutesbury	MA
+#5300	87	5	Elodie Warwick	12	F	F0114	34:16.4		Shutesbury	MA
+#5301	88	16	Melissa Warwick	49	F	F4049	34:16.6		Shutesbury	MA
+#5270	89	6	Chanda Shin	51	F	F5059	34:27.1		Williamstown	MA
+#5251	90	9	William Rheingold	10	M	M0114	34:30.4		Amherst	MA
+#5293	91	4	Olenka Tytla	27	F	F2029	34:40.7		South Deerfield	MA
+#5140	92	10	Simon Elliott	30	M	M3039	34:40.8		South Deerfield	MA
+#5127	93	3	Hilary Caws-Elwitt	60	F	F6069	34:43.6		Northampton	MA
+#5289	94	6	Emeline Trapani	11	F	F0114	34:44.7		Amherst	MA
+#5250	95	10	Jacob Rheingold	10	M	M0114	34:45.9		Amherst	MA
+#5107	96	4	Felicia Bianchi	63	F	F6069	34:49.2		Northampton	MA
+#5304	97	11	Leland Watson	7	M	M0114	35:03.2		Amherst	MA
+#5303	98	12	Cedar Watson	8	M	M0114	35:03.3		Amherst	MA
+#5254	99	17	Alissa Rothchild	42	F	F4049	35:03.6		Amherst	MA
+#5249	100	7	Alison Rheingold	54	F	F5059	35:13.8		Amherst	MA
+#5271	101	10	Mark Shin	57	M	M5059	35:16.5		Williamstown	MA
+#5200	102	7	Sophie Maier	9	F	F0114	35:21.7		Amherst	MA
+#5198	103	10	Marc Maier	42	M	M4049	35:24.3		Amherst	MA
+#5209	104	13	Walter McDuffie	7	M	M0114	35:32.3		Amherstamherst	MA
+#5117	105	3	Alexandra Brinkert	39	F	F3039	35:32.8		Norwood	MA
+#5187	106	5	Sherab Lama	21	F	F2029	35:45.6		Amherst	MA
+#5260	107	18	Margaret Sawyer	48	F	F4049	35:48.5		Amherst	MA
+#5160	108	5	Anne HGraham	66	F	F6069	35:50.3		Amherst	MA
+#5219	109	6	Becca Michelson	23	F	F2029	36:12.2		Hadley	MA
+#5168	110	4	Alyssa Huggins	35	F	F3039	36:32.1		Hadley	MA
+#5230	111	11	Rousseau Nutter	31	M	M3039	37:05.8		Greenbelt	MD
+#3200	112	19	Lynne Feldman	48	F	F4049	37:07.4		Petersham	MA
+#5143	113	7	Chloe Emler	27	F	F2029	37:08.4		Greenbelt	MD
+#5189	114	2	Dan Lass	72	M	M7079	37:19.9		Shutesbury	MA
+#5279	115	8	Abby Soleimani	22	F	F2029	37:25.0		South Hadley	MA
+#5109	116	6	Karl Bohonowicz	24	M	M2029	37:25.2		South Hadley	MA
+#5247	117	8	Greta Reed	10	F	F0114	37:27.0		West Newton	MA
+#5256	118	5	Ariel Saffer	36	F	F3039	37:36.9		Shutesbury	MA
+#5133	119	11	Joaquin CruzGalici	47	M	M4049	37:36.9		Shutesbury	MA
+#5153	120	12	Brian Giggey	41	M	M4049	38:03.1		Shutesbury	MA
+#5154	121	14	Declan Giggey	9	M	M0114	38:03.3		Shutesbury	MA
+#5111	122	11	Matt Boulanger	57	M	M5059	38:06.2		Shutesbury	MA
+#5123	123	20	Jennifer Carey	46	F	F4049	38:10.7		Northborough	MA
+#5216	124	6	Nancy Mead	61	F	F6069	39:21.3		Wendell	MA
+#5203	125	1	David Martula	80	M	M8099	39:31.3		Hadley	MA
+#5142	126	21	Nina Emery	42	F	F4049	40:27.4		Amherst	MA
+#5290	127	9	Isabel Trapani	8	F	F0114	40:28.3		Amherst	MA
+#5288	128	22	Anna Trapani	45	F	F4049	40:28.7		Amherst	MA
+#5141	129	6	Ellie Emery	37	F	F3039	40:28.7		Amherst	MA
+#5291	130	13	Joe Trapani	48	M	M4049	40:29.3		Amherst	MA
+#5306	131	10	Ava HopeWilliams	7	F	F0114	40:29.6		Amherst	MA
+#5182	132	9	Rachael Jones	22	F	F2029	40:36.7		Shutesbury	MA
+#5181	133	10	Hannah Jones	24	F	F2029	40:36.8		Shutesbury	MA
+#3182	134	7	Lori Tuominen	60	F	F6069	41:09.4		Shutesbury	MA
+#5237	135	8	Renee Pittelli	56	F	F5059	41:37.2		Worcester	MA
+#5238	136	7	Charlotte Posever	31	F	F3039	41:45.3		Amherst	MA
+#5314	137	15	Brandon Yun	7	M	M0114	41:46.8		Amherst	MA
+#5298	138	12	Oliver Wallace	51	M	M5059	42:59.2		Greenfield	MA
+#5130	139	8	Karen Corrigan	38	F	F3039	43:14.8		Amherst	MA
+#5155	140	23	Tamzeena Giggey	44	F	F4049	43:15.1		Shutesbury	MA
+#5122	141	24	Mary Campbell	48	F	F4049	43:19.4		Hadley	MA
+#3188	142	3	John Stifler	79	M	M7079	43:44.5		Shutesbury	MA
+#5113	143	1	Kathryn Brault	71	F	F7079	44:15.3		Athol	MA
+#5224	144	9	Katelynn Minifie	35	F	F3039	44:35.4		Colrain	MA
+#5252	145	2	Bette Richard	76	F	F7079	46:14.8		Wendell	MA
+#5188	146	11	Elia Lapierre	9	F	F0114	46:15.8		Greenfield	MA
+#5128	147	11	Ellie Chadwick	21	F	F2029	46:48.3		West Chester	PA
+#3179	148	4	Paul Peelle	78	M	M7079	47:28.0		Amherst	MA
+#5302	149	3	Willa Warwick	18	F	F1519	47:49.7		Shutesbury	MA
+#5212	150	25	Irene McGarrity	47	F	F4049	47:58.5		Greenfield	MA
+#3198	151	16	Abram Dunford	7	M	M0114	48:32.3		Shutesbury	MA
+#5167	152	3	Suzanne Hoyle	72	F	F7079	48:52.7		Shutesbury	MA
+#3199	153	14	Jeff Salacuo	47	M	M4049	49:55.6		Shutesbury	MA
+#5255	154	26	Rachel Roy	44	F	F4049	51:38.4		Greenfield	MA
+#5222	155	12	Gertie Mickus	10	F	F0114	51:56.9		Greenfield	MA
+#5207	156	27	Amy McDonald	45	F	F4049	1:01:38.7		Belchertown	MA
+#5208	157	13	Izzy McDonald	12	F	F0114	1:05:02.8		Belchertown	MA
